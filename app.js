@@ -11,7 +11,7 @@ var bodyParser = require('body-parser');
 // MongoDB Setup
 var mongo = require('mongodb')
 var monk = require('monk')
-var db = monk('//localhost/27017/whiteboard-app')
+var db = monk('//localhost/27017/realtime-whiteboard')
 
 var fs = require('fs'); // file system library
 
