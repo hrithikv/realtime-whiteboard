@@ -16,9 +16,6 @@
     box-sizing: border-box;
 }
 
-/*
-    https://css-tricks.com/snippets/css/clear-fix/
-*/
 .container:after,
 .row:after,
 .col:after {
@@ -27,37 +24,24 @@
     clear: both;
 }
 
-/*
-    mobile container leaves some whitespace on the sides
-*/
 .container {
     width: 90%;
     margin: 0 auto;
 }
 
-/*
-    set bottom padding if desired
-*/
 .row {
     padding-bottom: 0;
 }
 
-/*
-    default column styles
-*/
 .col {
     display: block;
     float: left;
     width: 100%;
 }
 
-/*
-    tablet columns
-*/
-/* 800px */
 @media (min-width: 50em) {
     .container {
-        width: 70em; /* 720px */
+        width: 70em; 
     }
 
     .gutters-t .col {
@@ -95,13 +79,9 @@
     .gutters-t .span-12-t { width: 100%; }
 }
 
-/*
-    desktop columns
-*/
-/* 1200px */
 @media (min-width: 75em) {
     .container {
-        width: 64em; /* 1024px */
+        width: 64em; 
     }
 
     .gutters-t .col {
