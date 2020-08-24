@@ -1,36 +1,113 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <title><%= title %></title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="/javascripts/index.js"></script>
-  <link rel='stylesheet' href='/stylesheets/trg.css' />
-  <link rel='stylesheet' href='/stylesheets/style.css' />
-</head>
-<body>
-  <div class="container debug">
-    <h1><%= title %></h1>
-    <p>
-      Welcome. This whiteboard is real-time. I used Node.js as the server, Socket.io for real-time collaboration, Express as the web framework and HTML5 Canvas for the whiteboard space. This can be a great space for drawing anything together, anytime. 
-    </p>
-    <p>
-      This app was built to learn how to use new technologies. I am interested in creating collaborative spaces for foreign language instruction. There's so much potential in real-time collaboration to bring teachers and learners together to learn a new language! I hope to include video and voice sharing in the future, along with other collaborative tools. If you have any ideas about how to make this space great for language learners, check out the repo: <a target="_blank" href="https://github.com/hrithikv/realtime-whiteboard">Simple Whiteboard on Github</a>
-      <div class="debug">Project for Dev Bootcamp</div>
-    </p>
-  </div>
-  <div class="debug">
-    <div class="row username-container">
-      <form class="username">
-        <p>Enter a username!</p>
-        <label for="name">Name:</label>
-        <input id="name" type="text"/>
-        <input id="submit-name" type="submit"/>
-      </form>
+	<head>
+		<title>canvasExample</title>
+        <meta charset='utf-8' />
+        <link rel="stylesheet" href="style.css">
+	</head>
+	<body style="background-color: #CCCCCC"><main>
+      <div class="left-block">
+        <div class="colors">
+          <button type="button" value="#0000ff"></button>
+          <button type="button" value="#009fff"></button>
+          <button type="button" value="#0fffff"></button>
+          <button type="button" value="#bfffff"></button>
+          <button type="button" value="#000000"></button>
+          <button type="button" value="#333333"></button>
+          <button type="button" value="#666666"></button>
+          <button type="button" value="#999999"></button>
+          <button type="button" value="#ffcc66"></button>
+          <button type="button" value="#ffcc00"></button>
+          <button type="button" value="#ffff00"></button>
+          <button type="button" value="#ffff99"></button>
+          <button type="button" value="#003300"></button>
+          <button type="button" value="#555000"></button>
+          <button type="button" value="#00ff00"></button>
+          <button type="button" value="#99ff99"></button>
+          <button type="button" value="#f00000"></button>
+          <button type="button" value="#ff6600"></button>
+          <button type="button" value="#ff9933"></button>
+          <button type="button" value="#f5deb3"></button>
+          <button type="button" value="#330000"></button>
+          <button type="button" value="#663300"></button>
+          <button type="button" value="#cc6600"></button>
+          <button type="button" value="#deb887"></button>
+          <button type="button" value="#aa0fff"></button>
+          <button type="button" value="#cc66cc"></button>
+          <button type="button" value="#ff66ff"></button>
+          <button type="button" value="#ff99ff"></button>
+          <button type="button" value="#e8c4e8"></button>
+          <button type="button" value="#ffffff"></button>
+        </div>
+        <div class="brushes">
+          <button type="button" value="1"></button>
+          <button type="button" value="2"></button>
+          <button type="button" value="3"></button>
+          <button type="button" value="4"></button>
+          <button type="button" value="5"></button>
+        </div>
+        <div class="buttons">
+          <button id="clear" type="button">Очистить</button>
+          <button id="save" type="button">Сохранить</button>
+        </div>
     </div>
-    <% include partials/canvas %>
-    <% include partials/chat %>
-  </div>
-  
-<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
-</body>
+      <div class="right-block">
+        	<canvas id="canvas" style="background-color: white;"></canvas>
+      </div>
+  </main>
+		<script>
+			window.onload = function () {
+			  var canvas = document.getElementById("canvas");
+			  var context = canvas.getContext("2d");
+			  var boundings = canvas.getBoundingClientRect();
+			  var mouseX = 0;
+			  var mouseY = 0;
+			  context.strokeStyle = 'black';
+			  context.lineWidth = 1; 
+			  var isDrawing = false;
+			  var colors = document.getElementsByClassName('colors')[0];
+			  colors.addEventListener('click', function(event) {
+			    context.strokeStyle = event.target.value || 'black';
+			  });
+			  var brushes = document.getElementsByClassName('brushes')[0];
+			  brushes.addEventListener('click', function(event) {
+			    context.lineWidth = event.target.value || 1;
+			  });
+			  canvas.addEventListener('mousedown', function(event) {
+			    setMouseCoordinates(event);
+			    isDrawing = true;
+			    context.beginPath();
+			    context.moveTo(mouseX, mouseY);
+			  });
+			  canvas.addEventListener('mousemove', function(event) {
+			    setMouseCoordinates(event);
+			    if(isDrawing){
+			      context.lineTo(mouseX, mouseY);
+			      context.stroke();
+			    }
+			  });
+			  canvas.addEventListener('mouseup', function(event) {
+			    setMouseCoordinates(event);
+			    isDrawing = false;
+			  });
+			  function setMouseCoordinates(event) {
+			    mouseX = event.clientX - boundings.left;
+			    mouseY = event.clientY - boundings.top;
+			  }
+			  var clearButton = document.getElementById('clear');
+			  clearButton.addEventListener('click', function() {
+			    context.clearRect(0, 0, canvas.width, canvas.height);
+			  });
+			  var saveButton = document.getElementById('save');
+			  saveButton.addEventListener('click', function() {
+			    var imageName = prompt('Please enter image name');
+			    var canvasDataURL = canvas.toDataURL();
+			    var a = document.createElement('a');
+			    a.href = canvasDataURL;
+			    a.download = imageName || 'drawing';
+			    a.click();
+			  });
+			};
+		</script>
+	</body>
 </html>
