@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('whiteboard-app:server');
+var debug = require('debug')('realtime-whiteboard:server');
 var http = require('http');
 
 /**
@@ -42,7 +42,6 @@ var io = require('socket.io').listen(server.listen(port));
 io.sockets.on("connection", function (socket) {
   // console.log("This should happen in the server");
 
-  // Listen/emit for Canvas
   socket.on('draw', function (data) {
     console.log("on draw from the server")
     // Data is sent in as: {x: data.x, y: data.y, type: data.type }
@@ -109,14 +108,15 @@ function onError(error) {
   }
 }
 
+
 /**
  * Event listener for HTTP server "listening" event.
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    debug('Listening on ' + bind);
 }
